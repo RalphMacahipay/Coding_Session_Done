@@ -22,10 +22,10 @@
 <?php
 require 'config/config.php';
 require 'config/db.php';
+require 'pagination/pagination-employee.php';
 
 $query = 'SELECT employee.id,employee.lastname, employee.firstname, employee.address, office.name as office_name
-            FROM employee, office WHERE employee.office_id = office.id ORDER BY employee.lastname';
-            
+            FROM employee, office WHERE employee.office_id = office.id ORDER BY employee.lastname LIMIT ' . $page_first_result . ',' . $results_per_page;
 
 // Create Query
 
@@ -105,16 +105,18 @@ mysqli_close($conn);
                                             <?php endforeach;?>
                                         </tbody>
                                     </table>
+
                                 </div>
+                                <?php
+for ($page = 1; $page <= $number_of_page; $page++) {
+    echo '<a href = "office.php?page=' . $page . '">' . $page . ' </a>';
+}
+?>
                             </div>
                         </div>
 
                     </div>
-                    <?php
-for ($page = 1; $page <= $number_of_page; $page++) {
-    echo '<a href = "employee.php?page=' . $page . '">' . $page . ' </a>';
-}
-?>
+
                 </div>
 
 

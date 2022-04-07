@@ -22,6 +22,7 @@
 <?php
 require 'config/config.php';
 require 'config/db.php';
+require 'pagination/pagination-transaction.php';
 
 // Create Query
 
@@ -29,7 +30,7 @@ $query = 'SELECT transaction.id,transaction.datelog, transaction.documentcode, t
                 office.name as office_name, CONCAT(employee.lastname,", ", employee.firstname)
                 AS employee_fullname, transaction.remarks  FROM coding_session.transaction, coding_session.employee, coding_session.office
                 WHERE transaction.employee_id=employee.id and transaction.office_id=office.id
-                ORDER BY transaction.documentcode, transaction.datelog';
+                ORDER BY transaction.documentcode, transaction.datelog LIMIT ' . $page_first_result . ',' . $results_per_page;
 
 // Get Result
 $result = mysqli_query($conn, $query);
@@ -106,16 +107,18 @@ mysqli_close($conn);
                                             <?php endforeach;?>
                                         </tbody>
                                     </table>
+                                    
                                 </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <?php
+                                <?php
 for ($page = 1; $page <= $number_of_page; $page++) {
     echo '<a href = "transaction.php?page=' . $page . '">' . $page . ' </a>';
 }
 ?>
+                            </div>
+                        </div>
+
+                    </div>
+                   
                 </div>
             </div>
             <footer class="footer">
