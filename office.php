@@ -64,7 +64,10 @@ mysqli_close($conn);
                             <div class="card strpied-tabled-with-hover">
                             <br/>
                             <div class="col-md-12">
-                                    
+                            <a href="office-add.php">
+                                    <button type="submit" class="btn btn-info btn-fill pull-right">Add New Office</button>
+                                </a>
+                                </div>   
                                 
                                 <div class="card-header">
                                     <h4 class="card-title">Offices</h4>

@@ -72,7 +72,9 @@ mysqli_close($conn);
                             <div class="card strpied-tabled-with-hover">
                             <br/>
                             <div class="col-md-12">
-
+                                <a href="employee-add.php">
+                                    <button type="submit" class="btn btn-info btn-fill pull-right">Add New Employee</button>
+                                </a>
                                 </div>
                                 <div class="col-md-12">
                                 <div class="card-header">
