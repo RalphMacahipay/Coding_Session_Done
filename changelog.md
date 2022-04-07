@@ -22,7 +22,7 @@ Direction:
 [/] Add assets to the project.  
 [/] Create includes directory; create navbar and sidebar. 
 
-
+2022-4-7
 [/] Setup database configuration.  
 [/] Create page for List of office.
 [/] Create page for List of employees.  
