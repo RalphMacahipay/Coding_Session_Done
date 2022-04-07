@@ -23,14 +23,28 @@
 require 'config/config.php';
 require 'config/db.php';
 require 'pagination/pagination-transaction.php';
+   
+if(isset($_GET['Search'])){
+    // gets value sent over search form
+$search = $_GET['Search']; 
+
 
 // Create Query
+if (strlen($search) > 0){
 
-$query = 'SELECT transaction.id,transaction.datelog, transaction.documentcode, transaction.action,
-                office.name as office_name, CONCAT(employee.lastname,", ", employee.firstname)
-                AS employee_fullname, transaction.remarks  FROM coding_session.transaction, coding_session.employee, coding_session.office
-                WHERE transaction.employee_id=employee.id and transaction.office_id=office.id
-                ORDER BY transaction.documentcode, transaction.datelog LIMIT ' . $page_first_result . ',' . $results_per_page;
+$query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, 
+        office.name as office_name, CONCAT(employee.lastname,", ", employee.firstname) AS 
+        employee_fullname, transaction.remarks  FROM coding_session.transaction, coding_session.employee, coding_session.office
+        WHERE transaction.employee_id=employee.id and transaction.office_id=office.id and transaction.documentcode='. $search . ' 
+        ORDER BY transaction.documentcode, transaction.datelog LIMIT '. $page_first_result . ',' . $results_per_page;
+
+}else{
+$query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, 
+        office.name as office_name, CONCAT(employee.lastname,", ", employee.firstname) 
+        AS employee_fullname, transaction.remarks  FROM coding_session.transaction, coding_session.employee, coding_session.office
+        WHERE transaction.employee_id=employee.id and transaction.office_id=office.id 
+        ORDER BY transaction.documentcode, transaction.datelog LIMIT ' . $page_first_result . ',' . $results_per_page;
+}
 
 // Get Result
 $result = mysqli_query($conn, $query);
@@ -44,6 +58,34 @@ mysqli_free_result($result);
 
 // Close Connection
 mysqli_close($conn);
+}
+else{
+
+
+
+// Create Query
+
+    $query = 'SELECT transaction.id,transaction.datelog, transaction.documentcode, transaction.action, 
+            office.name as office_name, CONCAT(employee.lastname,", ", employee.firstname) 
+            AS employee_fullname, transaction.remarks  FROM coding_session.transaction, coding_session.employee, coding_session.office
+            WHERE transaction.employee_id=employee.id and transaction.office_id=office.id 
+            ORDER BY transaction.documentcode, transaction.datelog LIMIT ' . $page_first_result . ',' . $results_per_page;
+
+
+// Get Result
+$result = mysqli_query($conn, $query);
+
+// Fetch Data
+$transactions = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//var_dump($posts);
+
+// Free Result
+mysqli_free_result($result);
+
+// Close Connection
+mysqli_close($conn);
+}
+
 
 ?>
 
@@ -71,6 +113,12 @@ mysqli_close($conn);
                         <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
                             <br/>
+                            <div class="col-md-12">
+                                    <form action="transaction.php" method="GET">
+                                        <input type="text" name="Search" />
+                                        <input type="submit" value="Search" class="btn btn-info btn-fill" />
+                                    </form>
+                                </div>
                             <div class="col-md-12">
                                 <a href="transaction-add.php">
                                     <button type="submit" class="btn btn-info btn-fill pull-right">Add New Transaction</button>
@@ -108,14 +156,17 @@ mysqli_close($conn);
                                         </tbody>
                                     </table>
                                     
+                                    
                                 </div>
-                                <?php
+                                
+                            </div>
+                            <?php
 for ($page = 1; $page <= $number_of_page; $page++) {
     echo '<a href = "transaction.php?page=' . $page . '">' . $page . ' </a>';
 }
 ?>
-                            </div>
                         </div>
+                        
 
                     </div>
                    
