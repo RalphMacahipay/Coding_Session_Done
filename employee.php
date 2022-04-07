@@ -23,11 +23,29 @@
 require 'config/config.php';
 require 'config/db.php';
 require 'pagination/pagination-employee.php';
+      
+if(isset($_GET['Search'])){
+    // gets value sent over search form
+$search = $_GET['Search']; 
 
-$query = 'SELECT employee.id,employee.lastname, employee.firstname, employee.address, office.name as office_name
-            FROM employee, office WHERE employee.office_id = office.id ORDER BY employee.lastname LIMIT ' . $page_first_result . ',' . $results_per_page;
 
 // Create Query
+if (strlen($search) > 0){
+
+    $query = "SELECT employee.lastname, employee.firstname, employee.address, office.name 
+    as office_name FROM employee, office 
+    WHERE employee.office_id = office.id and employee.lastname 
+    LIKE '%$search%' ORDER BY employee.lastname";
+
+
+}else{
+    $query = 'SELECT employee.lastname, employee.firstname, employee.address, office.name as office_name  
+            FROM employee, office WHERE employee.office_id = office.id ORDER BY employee.lastname 
+            LIMIT ' . $page_first_result . ',' . $results_per_page;
+
+    session_start();
+    $id = $employee['id'];
+}
 
 // Get Result
 $result = mysqli_query($conn, $query);
@@ -41,6 +59,31 @@ mysqli_free_result($result);
 
 // Close Connection
 mysqli_close($conn);
+}
+else{
+    $query = 'SELECT employee.id,employee.lastname, employee.firstname, employee.address, office.name as office_name  
+            FROM employee, office WHERE employee.office_id = office.id ORDER BY employee.lastname 
+            LIMIT ' . $page_first_result . ',' . $results_per_page;
+
+
+// Create Query
+
+
+
+// Get Result
+$result = mysqli_query($conn, $query);
+
+// Fetch Data
+$employees = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//var_dump($posts);
+
+// Free Result
+mysqli_free_result($result);
+
+// Close Connection
+mysqli_close($conn);
+}
+
 
 ?>
 
@@ -71,6 +114,12 @@ mysqli_close($conn);
                     <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
                             <br/>
+                            <div class="col-md-12">
+                                    <form action="employee.php" method="GET">
+                                        <input type="text" name="Search" />
+                                        <input type="submit" value="Search" class="btn btn-info btn-fill" />
+                                    </form>
+                                </div>
                             <div class="col-md-12">
                                 <a href="employee-add.php">
                                     <button type="submit" class="btn btn-info btn-fill pull-right">Add New Employee</button>
@@ -107,17 +156,19 @@ mysqli_close($conn);
                                     </table>
 
                                 </div>
-                                <?php
-for ($page = 1; $page <= $number_of_page; $page++) {
-    echo '<a href = "office.php?page=' . $page . '">' . $page . ' </a>';
-}
-?>
+                               
                             </div>
                         </div>
-
-                    </div>
+                        <?php
+for ($page = 1; $page <= $number_of_page; $page++) {
+    echo '<a href = "office.php?page= ' . $page . '">' . $page . ' </a>';
+}
+?>
 
                 </div>
+
+                    </div>
+                   
 
 
             </div>

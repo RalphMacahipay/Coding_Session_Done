@@ -25,21 +25,47 @@ require 'config/config.php';
 require 'config/db.php';
 require 'pagination/pagination-office.php';
 
-// Create Query
-$query = 'SELECT * from office ORDER BY name LIMIT ' . $page_first_result . ',' . $results_per_page;
+if (isset($_GET['Search'])) {
+    $search = $_GET['Search'];
+    if (strlen($search) > 0) {
+
+        $query = "SELECT * FROM office
+            WHERE name LIKE '%$search%' ORDER BY name";
+
+    } else {
+        $query = 'SELECT * from office ORDER BY name LIMIT ' . $page_first_result . ',' . $results_per_page;
+    }
 
 // Get Result
-$result = mysqli_query($conn, $query);
+    $result = mysqli_query($conn, $query);
 
 // Fetch Data
-$offices = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $offices = mysqli_fetch_all($result, MYSQLI_ASSOC);
 //var_dump($posts);
 
 // Free Result
-mysqli_free_result($result);
+    mysqli_free_result($result);
 
 // Close Connection
-mysqli_close($conn);
+    mysqli_close($conn);
+} else {
+
+// Create Query
+    $query = 'SELECT * from office ORDER BY name LIMIT ' . $page_first_result . ',' . $results_per_page;
+
+// Get Result
+    $result = mysqli_query($conn, $query);
+
+// Fetch Data
+    $offices = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//var_dump($posts);
+
+// Free Result
+    mysqli_free_result($result);
+
+// Close Connection
+    mysqli_close($conn);
+}
 
 ?>
     <div class="wrapper">
@@ -64,6 +90,12 @@ mysqli_close($conn);
                     <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
                             <br/>
+                            <div class="col-md-12">
+                                    <form action="office.php" method="GET">
+                                        <input type="text" name="Search" />
+                                        <input type="submit" value="Search" class="btn btn-info btn-fill" />
+                                    </form>
+                                </div>
                             <div class="col-md-12">
                                  <a href="office-add.php">
                                     <button type="submit" class="btn btn-info btn-fill pull-right">Add New Office</button>
@@ -105,13 +137,15 @@ mysqli_close($conn);
                                             <?php endforeach;?>
                                         </tbody>
                                     </table>
-                                    <?php
+
+                                </div>
+
+                            </div>
+                             <?php
 for ($page = 1; $page <= $number_of_page; $page++) {
     echo '<a href = "office.php?page=' . $page . '">' . $page . ' </a>';
 }
 ?>
-                                </div>
-                            </div>
                         </div>
 
                     </div>
