@@ -30,9 +30,9 @@ Direction:
 [/] Create page for adding office.  
 [/] Create page for adding employee.  
 [/] Create page for adding transactions.  
-[x] Applying pagination to list of office.  
-[x] Applying pagination to list of employees.  
-[x] Applying pagination to list of transactions.  
+[/] Applying pagination to list of office.  
+[/] Applying pagination to list of employees.  
+[/] Applying pagination to list of transactions.  
 [x] Create search feature in list of transactions.  
 [x] Create search feature in list of office. (challenge)  
 [x] Create search feature in list of employees. (challenge)  

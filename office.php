@@ -23,9 +23,10 @@
 <?php
 require 'config/config.php';
 require 'config/db.php';
+require 'pagination/pagination-office.php';
 
 // Create Query
-$query = "SELECT * from office ORDER BY name";
+$query = 'SELECT * from office ORDER BY name LIMIT ' . $page_first_result . ',' . $results_per_page;
 
 // Get Result
 $result = mysqli_query($conn, $query);
@@ -64,11 +65,11 @@ mysqli_close($conn);
                             <div class="card strpied-tabled-with-hover">
                             <br/>
                             <div class="col-md-12">
-                            <a href="office-add.php">
+                                 <a href="office-add.php">
                                     <button type="submit" class="btn btn-info btn-fill pull-right">Add New Office</button>
                                 </a>
-                                </div>   
-                                
+                                </div>
+
                                 <div class="card-header">
                                     <h4 class="card-title">Offices</h4>
                                     <p class="card-category">Here is a subtitle for this table</p>
@@ -85,7 +86,7 @@ mysqli_close($conn);
                                             <th>City</th>
                                             <th>Country</th>
                                             <th>Postal</th>
-                                           
+
 
                                         </thead>
                                         <tbody>
@@ -99,11 +100,16 @@ mysqli_close($conn);
                                                 <td><?php echo $office['city']; ?></td>
                                                 <td><?php echo $office['country']; ?></td>
                                                 <td><?php echo $office['postal']; ?></td>
-                                                
+
                                             </tr>
                                             <?php endforeach;?>
                                         </tbody>
                                     </table>
+                                    <?php
+for ($page = 1; $page <= $number_of_page; $page++) {
+    echo '<a href = "office.php?page=' . $page . '">' . $page . ' </a>';
+}
+?>
                                 </div>
                             </div>
                         </div>
@@ -112,19 +118,11 @@ mysqli_close($conn);
                 </div>
                     </div>
                 </div>
+
             </div>
 
+             </div>
 
-
-
-
-                </div>
-            <div class="content">
-                <div class="container-fluid">
-                    <div class="section">
-                    </div>
-                </div>
-            </div>
             <footer class="footer">
                 <div class="container-fluid">
                     <nav>
