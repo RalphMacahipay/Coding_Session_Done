@@ -18,8 +18,11 @@ Direction:
 [/] Modify the field name id in user account  
 
 ## These are the items you have to accomplished:  
+2022-4-5
 [/] Add assets to the project.  
-[/] Create includes directory; create navbar and sidebar.  
+[/] Create includes directory; create navbar and sidebar. 
+
+
 [/] Setup database configuration.  
 [/] Create page for List of office.
 [/] Create page for List of employees.  
