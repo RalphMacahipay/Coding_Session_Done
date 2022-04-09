@@ -139,6 +139,7 @@ mysqli_close($conn);
                                             <th>Office</th>
                                             <th>Employee</th>
                                             <th>Remarks</th>
+                                            <th>Edit</th>
                                            
                                         </thead>
                                         <tbody>
@@ -150,6 +151,11 @@ mysqli_close($conn);
                                                 <td><?php echo $transaction['office_name']; ?></td>
                                                 <td><?php echo $transaction['employee_fullname']; ?></td>
                                                 <td><?php echo $transaction['remarks']; ?></td>
+                                                <td>
+                                                    <a href='edit/transaction-edit.php?id=<?php echo $transaction['id']; ?>' >
+                                                    <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
+                                                    </a>
+                                                </td>
                                                 
                                             </tr>
                                             <?php endforeach;?>
