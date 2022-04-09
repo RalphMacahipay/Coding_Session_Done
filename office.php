@@ -118,6 +118,7 @@ if (isset($_GET['Search'])) {
                                             <th>City</th>
                                             <th>Country</th>
                                             <th>Postal</th>
+                                            <th>Office</th>
 
 
                                         </thead>
